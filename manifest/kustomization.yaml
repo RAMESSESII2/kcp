@@ -4,4 +4,5 @@ resources:
 - etcd.yaml
 - issuer.yaml
 - kcp.yaml
-- kcp-front-proxy.yaml
+- route.yaml
+# - kcp-front-proxy.yaml

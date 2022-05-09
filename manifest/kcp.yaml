@@ -9,7 +9,7 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  storageClassName: gp2
+  # storageClassName: gp2
   volumeMode: Filesystem
 ---
 apiVersion: cert-manager.io/v1
@@ -33,6 +33,7 @@ spec:
     - kcp
     - localhost
     - "*.openshiftapps.com"
+    - "*.redhat.com"
   issuerRef:
     name: kcp-server-issuer
 ---
@@ -105,6 +106,7 @@ spec:
     - kcp
     - localhost
     - "*.openshiftapps.com"
+    - "*.redhat.com"
   issuerRef:
     name: kcp-server-issuer
 ---
@@ -164,13 +166,6 @@ spec:
         - --root-directory=/etc/kcp/config
         - --run-virtual-workspaces=false
         - --virtual-workspace-address=https://$(EXTERNAL_HOSTNAME)
-        - --external-hostname=$(EXTERNAL_HOSTNAME):443
-        - --oidc-issuer-url=https://sso.redhat.com/auth/realms/redhat-external
-        - --oidc-client-id=rhoas-cli-prod
-        - --oidc-groups-claim=org_id
-        - --oidc-username-claim=preferred_username
-        - "--oidc-username-prefix=rh-sso:"
-        - "--oidc-groups-prefix=rh-sso:"
         - --v=2
         env:
         - name: EXTERNAL_HOSTNAME

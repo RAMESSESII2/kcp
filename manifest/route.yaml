@@ -1,0 +1,36 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: kcp
+spec:
+  # host: kcp
+  path: /
+  port:
+    targetPort: 6443
+  tls:
+    destinationCACertificate: |
+      -----BEGIN CERTIFICATE-----
+      MIIC7zCCAdegAwIBAgIRAIQ1R3I763cBYGt1DxIaRhwwDQYJKoZIhvcNAQELBQAw
+      ETEPMA0GA1UEAxMGa2NwLWNhMB4XDTIyMDUwNjA3MzYyMVoXDTIyMDgwNDA3MzYy
+      MVowETEPMA0GA1UEAxMGa2NwLWNhMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIB
+      CgKCAQEAsP9lhugVYN8aqXKx6U5m1u54xUkC158l7guNcNjDCqRpvizL7PD63p6m
+      WtDa8NfVuqG9Mv/gMdn2PK95TJL5Pdg8vyyfnlY3ioYfVNK3JccO0cvD6bW/vmxc
+      7otBbrVOk9KpyxGZawHp+2M8II27Q6/36i6dzRCvAx3K5SxXU07us0W6V2qcxo9S
+      fu4eqsFwvLsAq8vy2Ei8dT484CPpcXRF8BMIGmI4iPjmcDb3tSLLoWVgV8x1vqpZ
+      WFVYlspcCLCd9a/300+hqxIshFpROPZ//ONVqurFgm2qAsxkoqwuYQpNLdqLb9Om
+      K/B9TpK7fvLbaTX+ar7qsxShF/FZLQIDAQABo0IwQDAOBgNVHQ8BAf8EBAMCAqQw
+      DwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQU4KO+cLrr+l2ZZhvRZdEnwxqO+HUw
+      DQYJKoZIhvcNAQELBQADggEBAKnR92R2QW/HjHc7rTHfPXIuV8IxjnrQX4o3trxQ
+      fqCpqtiJH+sBuVF8fh8b4s14PMZiMGw2sDQG2/Fh5LaxPPQTfbz3Fev7qykjVPXZ
+      2WeDLL6Ig0pvN5lv2Bb+WCg3e7Y6vmSp3aw2uwmZ0Bc8gU99OYR9yRj6HyDJWF/7
+      v6umsnPPbF9DPJynmuT1Ylla5CzMIIChXqBDq0Jn4eGN9tU3ZOH25dcEMHpOJZ5w
+      zdAlYrSwRUvmldLqaNJoZIMiTFxtwSaIZVqr5OH+9tkSccFQBJNKYc1v++juxo2u
+      XHIoBHyLnsOC/0YIZYM8O5yWSx5j/lvUhjxUkdxHGk0ghMQ=
+      -----END CERTIFICATE-----
+     #   $(oc get secret kcp-cert -o json | jq -r '.data["ca.crt"]' | base64 -d | sed -e "s/^/      /")
+    termination: reencrypt
+  to:
+    kind: Service
+    name: kcp
+    weight: 100
+  wildcardPolicy: None
